@@ -14,6 +14,8 @@ class RailsCacheWrapperTest < MiniTest::Test
 
   def test_incr
     wrapper = TimeWindowDropCollector::Wrappers::RailsCache.new( ["arg1"] )
+    wrapper.client.expects(:fetch).with("key1")
+    wrapper.client.expects(:fetch).with("key2")
     wrapper.client.expects( :increment ).with( "key1", 5, :expires_in => "expire_time" )
     wrapper.client.expects( :increment ).with( "key2", 5, :expires_in => "expire_time" )
 
@@ -22,6 +24,8 @@ class RailsCacheWrapperTest < MiniTest::Test
 
   def test_decr
     wrapper = TimeWindowDropCollector::Wrappers::RailsCache.new( ["arg1"] )
+    wrapper.client.expects(:fetch).with("key1")
+    wrapper.client.expects(:fetch).with("key2")
     wrapper.client.expects( :decrement ).with( "key1", 5, :expires_in => "expire_time" )
     wrapper.client.expects( :decrement ).with( "key2", 5, :expires_in => "expire_time" )
 

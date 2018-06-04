@@ -9,12 +9,14 @@ class TimeWindowDropCollector
 
       def incr( keys, expire_time, amount )
         keys.each do |key|
+          client.fetch(key) { 0 }
           client.increment( key, amount, :expires_in => expire_time )
         end
       end
 
       def decr( keys, expire_time, amount )
         keys.each do |key|
+          client.fetch(key) { 0 }
           client.decrement( key, amount, :expires_in => expire_time )
         end
       end
