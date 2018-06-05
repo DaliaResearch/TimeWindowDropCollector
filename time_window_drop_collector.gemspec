@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake", "~> 12.1"
   s.add_development_dependency "mocha", "~> 1.3"
   s.add_development_dependency "delorean", "~> 2.1"
-  s.add_development_dependency "memcache_mock", "0.0.14"
   s.add_development_dependency "minitest", "~> 5.10"
 
+  s.add_dependency "memcache_mock", "0.0.14"
   s.add_dependency "dalli", "~> 2.7"
 end
