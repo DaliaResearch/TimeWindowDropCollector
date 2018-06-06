@@ -1,5 +1,5 @@
 require "dalli"
-
+require "memcache_mock"
 require_relative "time_window_drop_collector/version"
 require_relative "time_window_drop_collector/config"
 require_relative "time_window_drop_collector/logger"
