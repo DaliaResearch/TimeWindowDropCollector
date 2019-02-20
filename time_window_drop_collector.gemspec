@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split( "\n" ).map{ |f| File.basename( f ) }
   s.require_paths = ["lib"]
 
-  s.add_development_dependency "bundler", "~> 1.15"
+  s.add_development_dependency "bundler"
   s.add_development_dependency "rake", "~> 12.1"
   s.add_development_dependency "mocha", "~> 1.3"
   s.add_development_dependency "delorean", "~> 2.1"
