@@ -1,6 +1,6 @@
 module TimeWindowDropCollector::Utils
   def grouping_count( key_values )
-    groups = key_values.group_by { |k,v| k.match( /drop_window_(.*)_/ )[1]  }
+    groups = key_values.group_by { |k,v| k.match( /\{drop_window_(.*)\}_/ )[1]  }
 
     result = {}
 
@@ -12,7 +12,9 @@ module TimeWindowDropCollector::Utils
   end
 
   def timestamp_key( key, time = timestamp )
-    "drop_window_#{key}_#{slice_start_timestamp( time )}"
+    # Using [Keys hash tags](https://redis.io/topics/cluster-spec#keys-hash-tags)
+    # to force all Redis group key to be set in the same node (in case Redis is a sharded cluster)
+    "{drop_window_#{key}}_#{slice_start_timestamp( time )}"
   end
 
   def timestamp_key_multi( keys, time = timestamp)

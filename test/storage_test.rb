@@ -8,26 +8,26 @@ class StorageTest < MiniTest::Test
 
   def test_timestamp_key_when_time_is_present
     timestamp = Time.new(2001, 2, 3, 4, 5, 0, "+01:00")
-    assert_equal("drop_window_key_981169500000", @storage.timestamp_key("key", timestamp))
+    assert_equal("{drop_window_key}_981169500000", @storage.timestamp_key("key", timestamp))
   end
 
   def test_timestamp_key_when_time_is_not_present
     @storage.stubs(:timestamp).returns(Time.new(2012, 4, 3, 2, 1, 0, "+02:00"))
-    assert_equal("drop_window_key_1333411260000", @storage.timestamp_key("key"))
+    assert_equal("{drop_window_key}_1333411260000", @storage.timestamp_key("key"))
   end
 
   def test_window_keys_should_return_10_keys_for_the_last_10_minutes
     keys = [
-      "drop_window_key_1325560800000",
-      "drop_window_key_1325560740000",
-      "drop_window_key_1325560680000",
-      "drop_window_key_1325560620000",
-      "drop_window_key_1325560560000",
-      "drop_window_key_1325560500000",
-      "drop_window_key_1325560440000",
-      "drop_window_key_1325560380000",
-      "drop_window_key_1325560320000",
-      "drop_window_key_1325560260000"
+      "{drop_window_key}_1325560800000",
+      "{drop_window_key}_1325560740000",
+      "{drop_window_key}_1325560680000",
+      "{drop_window_key}_1325560620000",
+      "{drop_window_key}_1325560560000",
+      "{drop_window_key}_1325560500000",
+      "{drop_window_key}_1325560440000",
+      "{drop_window_key}_1325560380000",
+      "{drop_window_key}_1325560320000",
+      "{drop_window_key}_1325560260000"
     ]
 
     Delorean.time_travel_to('2012-01-03 04:20 +01:00') do
@@ -81,13 +81,13 @@ class StorageTest < MiniTest::Test
 
   def test_grouping_count
     key_values = {
-      "drop_window_key1_201201031416" => 1,
-      "drop_window_key1_201201031415" => 2,
-      "drop_window_key1_201201031414" => 3,
-      "drop_window_key1_201201031413" => 4,
-      "drop_window_key1_201201031412" => 5,
-      "drop_window_key2_201201031413" => 6,
-      "drop_window_key2_201201031412" => 7
+      "{drop_window_key1}_201201031416" => 1,
+      "{drop_window_key1}_201201031415" => 2,
+      "{drop_window_key1}_201201031414" => 3,
+      "{drop_window_key1}_201201031413" => 4,
+      "{drop_window_key1}_201201031412" => 5,
+      "{drop_window_key2}_201201031413" => 6,
+      "{drop_window_key2}_201201031412" => 7
     }
 
     key_counts = @storage.grouping_count( key_values )
@@ -98,11 +98,11 @@ class StorageTest < MiniTest::Test
 
   def test_grouping_count_with_nil_values
     key_values = {
-      "drop_window_key1_201201031416" => 1,
-      "drop_window_key1_201201031414" => nil,
-      "drop_window_key2_201201031413" => 6,
-      "drop_window_key2_201201031412" => 7,
-      "drop_window_key3_201201031412" => nil
+      "{drop_window_key1}_201201031416" => 1,
+      "{drop_window_key1}_201201031414" => nil,
+      "{drop_window_key2}_201201031413" => 6,
+      "{drop_window_key2}_201201031412" => 7,
+      "{drop_window_key3}_201201031412" => nil
     }
 
     key_counts = @storage.grouping_count( key_values )
@@ -114,8 +114,8 @@ class StorageTest < MiniTest::Test
 
   def test_grouping_when_not_key
     key_values = {
-      "drop_window_key1_201201031416" => 1,
-      "drop_window_key2_201201031412" => 7
+      "{drop_window_key1}_201201031416" => 1,
+      "{drop_window_key2}_201201031412" => 7
     }
 
     key_counts = @storage.grouping_count( key_values )
