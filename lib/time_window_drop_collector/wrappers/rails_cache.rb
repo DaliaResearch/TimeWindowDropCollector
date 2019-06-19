@@ -8,14 +8,20 @@ class TimeWindowDropCollector
       end
 
       def incr( keys, expire_time, amount )
+        TimeWindowDropCollector::Logger.log "RailsCache.incr( #{keys}, #{expire_time}, #{amount} )"
+
         keys.each do |key|
-          client.increment( key, amount, :expires_in => expire_time )
+          client.write(key, 0, :raw => true, :unless_exist => true, expires_in: expire_time)
+          client.increment( key, amount )
         end
       end
 
       def decr( keys, expire_time, amount )
+        TimeWindowDropCollector::Logger.log "RailsCache.decr( #{keys}, #{expire_time}, #{amount} )"
+
         keys.each do |key|
-          client.decrement( key, amount, :expires_in => expire_time )
+          client.write(key, 0, :raw => true, :unless_exist => true, expires_in: expire_time)
+          client.decrement( key, amount )
         end
       end
 

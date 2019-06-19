@@ -14,16 +14,24 @@ class RailsCacheWrapperTest < MiniTest::Test
 
   def test_incr
     wrapper = TimeWindowDropCollector::Wrappers::RailsCache.new( ["arg1"] )
-    wrapper.client.expects( :increment ).with( "key1", 5, :expires_in => "expire_time" )
-    wrapper.client.expects( :increment ).with( "key2", 5, :expires_in => "expire_time" )
+
+    wrapper.client.expects( :write ).with( "key1", 0, :raw => true, :unless_exist => true, :expires_in => "expire_time" )
+    wrapper.client.expects( :increment ).with( "key1", 5 )
+
+    wrapper.client.expects( :write ).with( "key2", 0, :raw => true, :unless_exist => true, :expires_in => "expire_time" )
+    wrapper.client.expects( :increment ).with( "key2", 5 )
 
     wrapper.incr( ["key1", "key2"], "expire_time", 5 )
   end
 
   def test_decr
     wrapper = TimeWindowDropCollector::Wrappers::RailsCache.new( ["arg1"] )
-    wrapper.client.expects( :decrement ).with( "key1", 5, :expires_in => "expire_time" )
-    wrapper.client.expects( :decrement ).with( "key2", 5, :expires_in => "expire_time" )
+
+    wrapper.client.expects( :write ).with( "key1", 0, :raw => true, :unless_exist => true, :expires_in => "expire_time" )
+    wrapper.client.expects( :decrement ).with( "key1", 5 )
+
+    wrapper.client.expects( :write ).with( "key2", 0, :raw => true, :unless_exist => true, :expires_in => "expire_time" )
+    wrapper.client.expects( :decrement ).with( "key2", 5 )
 
     wrapper.decr( ["key1", "key2"], "expire_time", 5 )
   end
