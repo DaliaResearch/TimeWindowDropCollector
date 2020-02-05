@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    time_window_drop_collector (0.7.1)
+    time_window_drop_collector (0.7.3)
       dalli (~> 2.7)
       memcache_mock (= 0.0.14)
 
